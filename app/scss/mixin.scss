@@ -1,0 +1,8 @@
+// Ma mixin flex avec paramètres que je vais beaucoup utiliser.
+// Cela evite beaucoup de répétitions dans le code.
+@mixin flex($justify,$align,$direction){
+    display: flex;
+    justify-content: $justify;
+    align-items: $align;
+    flex-direction: $direction;
+}

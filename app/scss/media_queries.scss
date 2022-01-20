@@ -1,0 +1,48 @@
+// J'ajuste la taille du jeu pour les plus petits supports avec les media queries (responsive).
+@media (max-width:880px) {
+    header{
+        height: 12vh;
+    }
+    main{
+        height: 88vh;
+    }
+    .container{
+        margin-top: 15vh;
+        grid-template-columns: repeat(6,3.9rem);
+        grid-auto-rows: 3.9rem;
+    }   
+}
+@media (max-width:511px) {
+    header{
+        height: 12vh;
+    }
+    h1{
+        font-size: 1.2rem;
+    }
+    // Ici mon contre-exemple du début, sans classe je suis obligé de reprendre
+    // toute l'imbrication pour aller modifier juste mes textes de la nav pour mon responsive.
+    // nav{
+    //     ul{
+    //          li{
+    //             i,a{
+    //                 font-size: 1rem;
+    //             }
+    //          }  
+    //      }
+    //  }
+    // Avec une classe le code est plus claire, et prendra le dessus sur un selecteur de type balise.
+     .textNav{
+        font-size: 1rem;
+     }
+    main{
+        height: 88vh;
+    }
+    .container{
+        margin-top: 15vh;
+        grid-template-columns: repeat(4,5rem);
+        grid-auto-rows: 5rem;
+    }  
+    #progressBarContainer{
+        width: 15rem;
+    }
+}

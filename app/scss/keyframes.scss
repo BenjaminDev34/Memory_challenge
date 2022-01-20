@@ -1,0 +1,39 @@
+// Toutes mes keyframes appellées par mes classes qui seront toggle en js.
+// La barre de chargement.
+@keyframes load {
+    0% { 
+        width: 0; 
+    }
+    100% { 
+        width: 100%; 
+    }
+  }
+// Retourner une carte face cachée.
+@keyframes unShow {
+    0% {
+        transform: rotateY(180deg);
+     
+    }
+    100% {
+        transform: rotateY(0deg);
+    }
+}
+// Tourner une carte face visible.
+@keyframes show {
+    0% {
+        transform: rotateY(0deg);
+    }
+    100% {
+        transform: rotateY(180deg);
+    }
+}
+// Quand une paire est trouvée.
+  @keyframes matching {
+    0%{
+        transform: rotateY(0deg);
+    }
+    100%{
+        transform: rotateY(180deg);
+        box-shadow: green 0px .3rem .5rem;
+    }
+}

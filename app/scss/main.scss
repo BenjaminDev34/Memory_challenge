@@ -1,0 +1,225 @@
+// J'importe ici variables, mixin, reset et keyframes.
+@import "variable.scss";
+// L'utilisation d'un reset est une bonne pratique.
+// Il permettra d'enlever les styles par défaut que l'on veut éviter des navigateurs.
+@import "reset.scss";
+@import "mixin.scss";
+@import "keyframes.scss";
+@import "media_queries.scss";
+
+header{
+    // L'unité de mesure vh = viewport height (hauteur de l'écran).
+    height: 10vh;
+    // Je vais beaucoup utiliser flex dans mon scss, je crée donc une mixin dans mon fichier mixin.scss.
+    // L'utilisation de la mixin équivaut au code commenté ci-dessous.
+    @include flex(space-between,center,unset);
+    // ATTENTION ! Très important, le display flex s'applique toujours sur l'élément parent.
+    // display: flex;  Permet de placer les blocs les uns à côté des autres.
+    // justify-content: space-between; Permet de mettre de l'espace entre eux.
+    // align-items: center; Permet de les aligner verticalement.
+    // Lien pour une super documentation sur flex : https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+    position: fixed;
+    width: 100%;
+    // Avec mon Header en fixed, le z-index permettra de le placer toujours devant mes autres éléments.
+    // En position fixed ou absolute l'élément perd sa taille naturelle par rapport au navigateur.
+    z-index: 1;
+}
+nav{
+    // Je positionne ma nav à droite de l'écran.
+   justify-self: self-end;
+    // La bonne pratique penche plutôt pour l'utilisation de l'unité de mesure rem,
+    // l'objectif principal est d'assurer que la mise en page s'ajuste à la taille du texte qu'elle contient.
+    // Dans mon reset, je mets un font-size 62.5% 1rem équivaut à 10px. 
+   margin-right: 1rem;
+    // Ici un exemple de nesting (imbrication), impossible en css classique.
+    // Ne partez pas sur du nesting trop "profond".
+    // Sinon plus loin dans le code, vous ne pourrez modifier les éléments qu'avec un nesting aussi profond.
+    // Je reprends ce contre-exemple dans les médias querries.
+    // Priviligiez plutôt des classes dans un cas comme celui-ci pour atteindre le texte du i et du a.
+    // cf : ligne 22-33 fichier media_querries.scss
+   ul{
+        display: flex;
+        li{
+            padding: 1rem;
+            cursor: pointer;
+            i,a{
+                // Utilisez des variables pour les couleurs qui ressortent souvent sur votre site.
+                color: $primary-color;
+                font-size: 1.2rem;
+                span{
+                    padding: .1rem;
+                }
+            }
+        }
+    }
+}
+main{
+    height: 88vh;
+    // Voyez l'utilité de notre super mixin flex !
+    @include flex(flex-start,center,column);
+    // display: flex;
+    // flex-direction: column;
+    // align-items: center;
+    // justify-content: flex-start;
+}
+h1{
+    color: $primary-color;
+    margin-top: .5rem;
+    font-size: 1.8rem;
+    margin-left:1rem ;
+    font-weight: bold;
+    // rgba, "a" pour alpha, qui permet de gérer l'opacité d'une couleur.
+    text-shadow: rgba(0, 0, 0, 0.24) 0 .1rem .2rem;
+    
+}
+.container{
+    // Ici je mets un margin-top 10vh, pour compenser la hauteur mise à mon header.
+    margin-top: 10vh;
+    // Display grid permet de transformer l'élément en grille.
+    display: grid;
+    //Le grid-template-columns spécifie le nombre (et la largeur) des colonnes dans une grille. 
+    // Le repeat prend en premier paramètre le nombre de colonnes et en deuxième leur taille.
+    grid-template-columns: repeat(6,4.7rem);
+    // Permet d'aligner la grille au centre
+    justify-content: center;
+    //  Gap est la propriété raccourcie pour définir à la même taille le row-gap et le column-gap
+    gap: 1rem;
+    // Définit une taille automatique pour chaque ligne créée. On peut sinon utiliser un grid-template-rows
+    grid-auto-rows: 4.7rem;
+    padding: .5rem;
+    // Vw = viewport weight (largeur de l'écran).
+    width: 80vw;
+    &__card{
+        // La super propriété suivante reprend les propriétés commentées ci-dessous
+        background: url("../../public/images/logo_bb_memory.png") $third-color center center/60% no-repeat;
+        // background-color: $third-color;
+        // background-image: url("../../public/images/logo_bb_memory.png");
+        // background-color: $third-color;
+        // background-position: center center;
+        // background-size: 60%;
+        // background-repeat: no-repeat;
+        box-shadow: rgba(0, 0, 0, 0.24) 0 .3rem .5rem;
+        cursor: pointer;
+        &-img{
+            // Les images sont de base invisibles grâce à opacity 0.
+            opacity: 0;
+            // Je mets une transition sur l'opacité afin de les faire apparaitre ou disparaitre de façon "smooth".
+            transition: opacity .5s;
+            // L'image prendra 100% de la card et avec object-fit cover sera dimensionnée avec le bon ratio d'affichage.
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            // Mes classes qui seront toggle en js, pour afficher ou faire disparaitre l'image.
+            &--showImg{
+                opacity:1;
+            }
+            &--unShowImg{
+                opacity:0;
+            }
+        }
+        // Nth of type correspond à des éléments d'un type et 2n permet de prendre les multiples de 2.
+        // Grâce à ça, avec peu de code, une sur deux gardent leurs couleurs assignées plus haut et les autres prennent celles-ci 
+        &:nth-of-type(2n){
+            background-color: $secondary-color;
+        }
+        // les classe pour toggle mes animations en JS.
+        &--show{
+            animation: show .8s forwards;
+        }
+        &--unShow{
+            animation: unShow .8s forwards;
+        }
+        &--success{
+            animation: matching .8s forwards;
+        }
+    }
+}
+#progressBarContainer{
+    // Je mets les éléments en colonne.
+    @include flex(unset,unset,column);
+    width: 30rem;
+    #progressBar {
+        // Background color de la barre vide.
+        background-color: rgba($color: $fourth-color, $alpha: 0.2);
+        // Border-radius pour les arrondis.
+        border-radius: 9rem;
+        height: 1.5rem;
+        width: 100%;
+        // Exemple de la super propriété margin, 1er:haut, 2eme: horizontal, 3eme:bas.
+        margin:2rem auto 0;
+        &__value {
+            border-radius: 9rem;
+            background: $primary-color;
+            height: 1.5rem;
+            // la width de base est à 0, mon keyFrame s'occupe de l'animation et le js le lancera avec la bonne durée.
+            width: 0;
+            opacity: 1;
+        } 
+    }
+    #secondsLeft{
+        margin-top: .5rem;
+        // Pour aligner les secondes à la fin du conteneur.
+        align-self: flex-end;
+    }
+}
+
+// Background noir de la modale.
+.modal {
+    @include flex(center,center,unset); /* Visible au premier lancement */
+    position: fixed; /* Pour qu'elle ne bouge pas. */ 
+    z-index: 1; /* Pour rester au-dessus de tous les éléments. */
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    background-color: rgba(0,0,0,0.4); /* Noir avec de l'opacité. */
+    &__content{
+        // Le contenu de la modale.
+        @include flex(space-between,center,unset);
+        background-color: $third-color;
+        padding: 2rem;
+        width: 50%; 
+        height: 50%;
+        border-radius: 2rem;
+        box-shadow: rgba(0, 0, 0, 0.24) 0 .3rem .5rem;
+        &-close{
+            // Order permet de changer l'ordre d'un élément dans un conteneur flex.
+           order: 3;
+            // J'aligne l'élément en haut.
+           align-self: flex-start;
+            color: $fourth-color;
+            font-weight: bold;
+            &:hover,&:focus{
+                color: $primary-color;
+                text-decoration: none;
+                cursor: pointer;
+            }
+        }
+        &-title{
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: $primary-color;
+            align-self: flex-start;
+            text-transform: uppercase;
+            font-weight: bold;
+            text-shadow: rgba(0, 0, 0, 0.24) 0 .1rem .2rem;
+            
+        }
+        &-ul{
+            text-align: center;
+            li{
+                font-size: 1rem;
+                padding: 1rem;
+                color: $primary-color;
+                font-weight: bold;
+                // Border bottom pour séparer les scores d'un trait.
+                border-bottom: .1rem solid $fourth-color;
+                span{
+                    // Le display block pour que le score soit à la ligne.
+                    display: block;
+                    color: $fourth-color;
+                }
+            }
+        }
+    }
+  }
