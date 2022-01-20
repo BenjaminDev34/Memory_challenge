@@ -37,9 +37,10 @@ class GameController
         // J'ajoute le jeu en bdd à l'aide de mon manager.
         try{
             // En modifiant la console, il est possible de tricher assez facilement...
-            // Après avoir fait plusieurs parties, il me semble impossible de battre 80 secondes sans tricher.
-            // Je lève une erreur si le temps est inférieur à 50 secondes (je prévois large).
-            if($game->secondes<50){
+            // Après avoir fait plusieurs parties, il me semble impossible de battre 60 secondes sans tricher.
+            // Je lève une erreur si le temps est inférieur à 35 secondes (je prévois large).
+            // Libre à vous de modifier cette condition.
+            if($game->secondes<35){
                 throw new Exception("Je n'aime pas les tricheurs, ne touche pas la console !");
             }
             // En cas d'erreur sql je lève une exception.
